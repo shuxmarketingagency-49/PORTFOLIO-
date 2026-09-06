@@ -1,0 +1,540 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<div style="margin-left: 180px; margin-top: 110px; margin-bottom: 220px;">
+  <img src="logo.png" alt="Logo" style="width: 500px;">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ujjwal Shukla — Video Editor and Owner of company | Shux Marketing Agency</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300;9..144,500;9..144,600&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#12151c;
+    --ink-2:#1b202b;
+    --paper:#ede9df;
+    --paper-dim:#a8a49a;
+    --amber:#e8a33d;
+    --teal:#5fd6c6;
+    --line: rgba(237,233,223,0.12);
+    --radius: 4px;
+  }
+  *{box-sizing:border-box; margin:0; padding:0;}
+  html{scroll-behavior:smooth;}
+  body{
+    background:var(--ink);
+    color:var(--paper);
+    font-family:'Inter', sans-serif;
+    line-height:1.5;
+    overflow-x:hidden;
+  }
+  ::selection{ background:var(--amber); color:var(--ink); }
+
+  .mono{ font-family:'JetBrains Mono', monospace; }
+
+  a{ color:inherit; }
+
+  /* ---------- Timecode rail (signature element) ---------- */
+  .timecode-rail{
+    position:fixed;
+    top:0; left:0; right:0;
+    height:34px;
+    display:flex;
+    align-items:center;
+    padding:0 24px;
+    font-family:'JetBrains Mono', monospace;
+    font-size:11px;
+    letter-spacing:0.05em;
+    color:var(--paper-dim);
+    background:rgba(18,21,28,0.85);
+    backdrop-filter:blur(6px);
+    border-bottom:1px solid var(--line);
+    z-index:100;
+    gap:18px;
+    overflow-x:auto;
+    white-space:nowrap;
+  }
+  .timecode-rail .tc{ color:var(--amber); }
+  .timecode-rail .sep{ color:var(--line); }
+  .timecode-rail a{ text-decoration:none; color:var(--paper-dim); transition:color .2s; }
+  .timecode-rail a:hover{ color:var(--paper); }
+
+  section{ padding:120px 8vw 100px; position:relative; }
+  @media (max-width:700px){ section{ padding:100px 6vw 70px; } }
+
+  /* ---------- Hero ---------- */
+  .hero{
+    padding-top:160px;
+    min-height:92vh;
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+  }
+  .hero .eyebrow{
+    font-family:'JetBrains Mono', monospace;
+    font-size:12px;
+    letter-spacing:0.12em;
+    color:var(--teal);
+    text-transform:uppercase;
+    margin-bottom:22px;
+    display:flex;
+    align-items:center;
+    gap:10px;
+  }
+  .rec-dot{
+    width:8px; height:8px; border-radius:50%;
+    background:var(--amber);
+    box-shadow:0 0 0 0 rgba(232,163,61,0.5);
+    animation:pulse 2s infinite;
+  }
+  @keyframes pulse{
+    0%{ box-shadow:0 0 0 0 rgba(232,163,61,0.45); }
+    70%{ box-shadow:0 0 0 9px rgba(232,163,61,0); }
+    100%{ box-shadow:0 0 0 0 rgba(232,163,61,0); }
+  }
+  .hero h1{
+    font-family:'Fraunces', serif;
+    font-weight:500;
+    font-size:clamp(2.6rem, 7vw, 5.4rem);
+    line-height:1.02;
+    letter-spacing:-0.01em;
+    max-width:14ch;
+  }
+  .hero h1 em{
+    font-style:italic;
+    font-weight:300;
+    color:var(--amber);
+  }
+  .hero p.sub{
+    margin-top:28px;
+    max-width:46ch;
+    font-size:1.08rem;
+    color:var(--paper-dim);
+  }
+  .hero .cta-row{
+    margin-top:44px;
+    display:flex;
+    gap:16px;
+    flex-wrap:wrap;
+    align-items:center;
+  }
+  .btn{
+    font-family:'JetBrains Mono', monospace;
+    font-size:13px;
+    letter-spacing:0.04em;
+    padding:15px 26px;
+    border-radius:var(--radius);
+    text-decoration:none;
+    display:inline-flex;
+    align-items:center;
+    gap:10px;
+    transition:transform .18s ease, background .18s ease;
+  }
+  .btn-primary{ background:var(--amber); color:var(--ink); font-weight:500; }
+  .btn-primary:hover{ transform:translateY(-2px); }
+  .btn-ghost{ border:1px solid var(--line); color:var(--paper); }
+  .btn-ghost:hover{ border-color:var(--teal); color:var(--teal); }
+
+  .scrub{
+    margin-top:70px;
+    display:flex;
+    align-items:center;
+    gap:14px;
+    max-width:480px;
+  }
+  .scrub-track{
+    flex:1; height:3px; background:var(--line); border-radius:2px; position:relative; overflow:hidden;
+  }
+  .scrub-fill{ position:absolute; left:0; top:0; bottom:0; width:38%; background:var(--teal); }
+  .scrub small{ color:var(--paper-dim); font-family:'JetBrains Mono', monospace; font-size:11px; }
+
+  /* ---------- Section headers ---------- */
+  .sec-head{
+    display:flex;
+    align-items:baseline;
+    gap:16px;
+    margin-bottom:52px;
+    border-bottom:1px solid var(--line);
+    padding-bottom:18px;
+  }
+  .sec-head .tc{ color:var(--amber); font-family:'JetBrains Mono',monospace; font-size:13px; }
+  .sec-head h2{
+    font-family:'Fraunces', serif;
+    font-weight:500;
+    font-size:clamp(1.7rem, 3.4vw, 2.5rem);
+  }
+
+  /* ---------- Services ---------- */
+  .services{ display:grid; grid-template-columns:repeat(3,1fr); gap:1px; background:var(--line); border:1px solid var(--line); }
+  @media (max-width:800px){ .services{ grid-template-columns:1fr; } }
+  .service{ background:var(--ink); padding:34px 30px; }
+  .service .tc{ font-family:'JetBrains Mono',monospace; font-size:12px; color:var(--paper-dim); }
+  .service h3{ font-family:'Fraunces', serif; font-size:1.4rem; font-weight:500; margin:14px 0 12px; color:var(--teal); }
+  .service p{ color:var(--paper-dim); font-size:0.95rem; }
+
+  /* ---------- Showcase grid ---------- */
+  .grid{ display:grid; grid-template-columns:repeat(3,1fr); gap:22px; }
+  @media (max-width:800px){ .grid{ grid-template-columns:1fr; } }
+  .clip{
+    aspect-ratio:16/10;
+    border:1px solid var(--line);
+    border-radius:var(--radius);
+    position:relative;
+    background:linear-gradient(160deg, var(--ink-2), var(--ink));
+    display:flex; align-items:center; justify-content:center;
+    overflow:hidden;
+    cursor:pointer;
+    transition:border-color .2s;
+  }
+  .clip:hover{ border-color:var(--amber); }
+  .clip video{
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  display:block;
+}
+  .clip:hover .play{ transform:scale(1.12); }
+  .clip .play{
+    width:52px; height:52px; border-radius:50%;
+    border:1px solid var(--line);
+    display:flex; align-items:center; justify-content:center;
+    transition:transform .25s ease;
+  }
+  .clip .play svg{ width:16px; height:16px; fill:var(--paper); margin-left:2px; }
+  .clip .tag{
+    position:absolute; bottom:12px; left:14px;
+    font-family:'JetBrains Mono',monospace; font-size:11px; color:var(--paper-dim);
+  }
+  .clip .dur{
+    position:absolute; top:12px; right:14px;
+    font-family:'JetBrains Mono',monospace; font-size:11px; color:var(--paper-dim);
+  }
+  .grid-note{
+    margin-top:22px; color:var(--paper-dim); font-size:0.9rem; font-family:'JetBrains Mono',monospace;
+  }
+
+  /* ---------- Process ---------- */
+  .process{ display:flex; flex-direction:column; }
+  .step{
+    display:grid;
+    grid-template-columns:110px 1fr;
+    gap:28px;
+    padding:26px 0;
+    border-bottom:1px solid var(--line);
+  }
+  .step:last-child{ border-bottom:none; }
+  .step .tc{ color:var(--amber); font-family:'JetBrains Mono',monospace; font-size:13px; padding-top:3px; }
+  .step h4{ font-family:'Fraunces', serif; font-weight:500; font-size:1.25rem; margin-bottom:8px; }
+  .step p{ color:var(--paper-dim); max-width:56ch; }
+
+  /* ---------- Testimonial ---------- */
+  .testimonial{
+    border-left:2px solid var(--teal);
+    padding-left:30px;
+    max-width:640px;
+  }
+  .testimonial p{ font-family:'Fraunces', serif; font-size:1.5rem; font-weight:300; font-style:italic; line-height:1.4; color:var(--paper); }
+  .testimonial .who{ margin-top:18px; font-family:'JetBrains Mono',monospace; font-size:12px; color:var(--paper-dim); }
+
+  /* ---------- Contact ---------- */
+  .contact{
+    display:flex;
+    flex-direction:column;
+    align-items:flex-start;
+  }
+  .contact h2{
+    font-family:'Fraunces', serif;
+    font-weight:500;
+    font-size:clamp(2rem, 5vw, 3.4rem);
+    max-width:16ch;
+    margin-bottom:26px;
+  }
+  .contact h2 em{ font-style:italic; color:var(--amber); font-weight:300; }
+  .contact-links{ display:flex; gap:16px; flex-wrap:wrap; margin-top:10px; }
+
+  footer{
+    padding:36px 8vw;
+    border-top:1px solid var(--line);
+    display:flex; justify-content:space-between; align-items:center;
+    font-family:'JetBrains Mono', monospace; font-size:12px; color:var(--paper-dim);
+    flex-wrap:wrap; gap:10px;
+  }
+
+  @media (prefers-reduced-motion: reduce){
+    .rec-dot{ animation:none; }
+    html{ scroll-behavior:auto; }
+  }
+</style>
+</head>
+<body>
+
+<nav class="timecode-rail">
+  <span class="tc"></span><a href="#work">WORK</a>
+  <span class="sep">/</span><span class="tc"></span><a href="#services">SERVICES</a>
+  <span class="sep">/</span><span class="tc"></span><a href="#process">PROCESS</a>
+  <span class="sep">/</span><span class="tc"></span><a href="#contact">CONTACT</a>
+</nav>
+
+<section class="hero">
+  <div class="eyebrow"><span class="rec-dot"></span>UJJWAL SHUKLA · SHUX MARKETING AGENCY</div>
+  <h1>Edits that make people <em>stop scrolling</em>.</h1>
+  <p class="sub">I'm Ujjwal — video editor at Shux Marketing Agency. I cut YouTube videos, Reels, Shorts, and podcasts for creators and brands who need more than a trim. Fast delivery. Adobe Premiere Pro. Free sample edit on your first project.</p>
+  <div class="cta-row">
+    <a class="btn btn-primary" href="#contact">Start a free trial edit →</a>
+    <a class="btn btn-ghost" href="#work">See the work</a>
+  </div>
+  <div class="scrub">
+    <span class="mono">EDIT</span>
+    <div class="scrub-track"><div class="scrub-fill"></div></div>
+    <small>Showreel — coming soon</small>
+  </div>
+</section>
+
+<section id="services">
+  <div class="sec-head"><span class="tc"></span><h2>What I edit</h2></div>
+  <div class="services">
+    <div class="service">
+      <span class="tc">01 / LONG-FORM</span>
+      <h3>YouTube Videos</h3>
+      <p>Pacing, B-roll, sound design, jump-cut cleanup, and thumbnails for 8–40 minute videos.</p>
+    </div>
+    <div class="service">
+      <span class="tc">02 / SHORT-FORM</span>
+      <h3>Shorts &amp; Reels</h3>
+      <p>Hook-first cuts, captions, and reformats built for retention on TikTok, Reels, and Shorts.</p>
+    </div>
+    <div class="service">
+      <span class="tc">03 / AUDIO-FIRST</span>
+      <h3>Podcasts</h3>
+      <p>Filler-word removal, leveling, intro/outro, and social clips pulled from every episode.</p>
+    </div>
+  </div>
+</section>
+
+<section id="work">
+  <div class="sec-head"><span class="tc"></span><h2>REAL ESTATE SAMPLE VIDEOS CREATED BY OUR COMPANY</h2></div>
+ <div class="grid">
+
+  <div class="clip">
+    <video src="Portfolio.mp4" muted loop playsinline controls></video>
+    <span class="dur">00:31</span>
+    <span class="tag">SHOWREEL</span>
+  </div>
+
+  <div class="clip">
+    <video src="(2).mp4" muted loop playsinline controls></video>
+    <span class="dur">00:31</span>
+    <span class="tag">REAL ESTATE</span>
+  </div>
+
+  <div class="clip">
+    <video src="(11).mp4" muted loop playsinline controls></video>
+    <span class="dur">00:09</span>
+    <span class="tag">PROPERTY CINEMATIC</span>
+  </div>
+
+  <div class="clip">
+    <video src="(20).mp4" muted loop playsinline controls></video>
+    <span class="dur">00:19</span>
+    <span class="tag">REAL ESTATE</span>
+  </div>
+
+  <div class="clip">
+    <video src="(21).mp4" muted loop playsinline controls></video>
+    <span class="dur">00:09</span>
+    <span class="tag">INTERIOR</span>
+  </div>
+
+  <div class="clip">
+    <video src="(18).mp4" muted loop playsinline controls></video>
+    <span class="dur">00:49</span>
+    <span class="tag">TALKING HEAD</span>
+  </div>
+
+
+  <div class="grid">
+
+  <!-- tere videos -->
+
+</div>
+
+</section>
+```html
+<section id="podcast">
+  <div class="sec-head">
+    <span class="tc">00:02:20</span>
+    <h2>Podcast Edits</h2>
+  </div>
+
+  <div class="podcast-box">
+    <div>
+      <span class="podcast-label">PODCAST Edited by Ujjwal / LONG-FORM</span>
+      <h3>Podcast Editing &amp; Clips</h3>
+      <p>
+        Podcast editing, clean cuts, audio cleanup, captions and engaging
+        social media clips — all in one place,Your Trust is Our responsibility.
+      </p>
+    </div>
+
+    <a
+      class="btn btn-primary"
+      href="https://youtu.be/-DA6Pcvecz0?si=uyqKCNF-NSvSdWwk"
+      target="_blank"
+      rel="noopener noreferrer"
+    >
+      View Candle business →
+    </a>
+    <a
+  class="btn btn-primary"
+  href="https://youtu.be/gdOLTa1NFns?si=nkJ-Mxx098ZOhTrt"
+  target="_blank"
+  rel="noopener noreferrer"
+>
+  Advocate Ashu→
+</a>
+  </div>
+</section>
+```
+
+<section id="process">
+  <div class="sec-head"><span class="tc">\</span><h2>How a project runs</h2></div>
+  <div class="process">
+    <div class="step"><span class="tc"></span><div><h4>Free trial edit</h4><p>Send me raw footage or an existing video. I'll cut one piece so you can judge quality before spending anything.</p></div></div>
+    <div class="step"><span class="tc"></span><div><h4>Scope &amp; rate</h4><p>We agree on turnaround time, revision rounds, and price per video or a monthly retainer for regular uploaders.</p></div></div>
+    <div class="step"><span class="tc"></span><div><h4>First draft</h4><p>Delivered within your agreed window, with notes on any creative choices worth discussing.</p></div></div>
+    <div class="step"><span class="tc"></span><div><h4>Revisions &amp; delivery</h4><p>Fast revision turnaround, then final export in your platform's spec — YouTube, Shorts, or podcast audio + clips.</p></div></div>
+  </div>
+</section>
+
+<section id="testimonial">
+  <div class="sec-head"><span class="tc"></span><h2>What clients say</h2></div>
+  <div class="testimonial">
+
+  <!-- Client 1 -->
+  <div class="testimonial-item">
+    <p>
+      "Hey, I'm Prakash. I wanted to turn my normal B-roll clips into something
+      fantastic, and then I found Ujjwal's profile on Freelancer. I texted him,
+      and within 30 minutes, I got a reply. He offered me a free trial edit to
+      build my trust. I just watched the trial edit and honestly, I really
+      liked his editing style. The pacing, cuts, and overall feel were exactly
+      what I was looking for. I'd love to work with him on my upcoming videos.
+      I'm really looking forward to working together!"
+    </p>
+
+    <div class="who">
+      — Prakash, Content Creator &amp; Social Media Executive · Manages Instagram &amp; YouTube
+    </div>
+  </div>
+
+
+  <!-- Client 2 -->
+  <div class="testimonial-item">
+    <p>
+      "I was looking for someone who could make my YouTube videos feel more
+      professional without making them overly complicated. Ujjwal understood
+      the style I wanted almost immediately. His cuts were clean, the pacing
+      felt natural, and the B-roll made the video much more engaging. The trial
+      edit gave me a really good idea of his editing quality, and I'm definitely
+      impressed with the result."
+    </p>
+
+    <div class="who">
+      — Arjun Mehta, YouTube Creator &amp; Content Strategist
+    </div>
+  </div>
+
+
+  <!-- Client 3 -->
+  <div class="testimonial-item">
+    <p>
+      "I had a lot of raw property footage but had no idea how to turn it into
+      something that actually grabs attention. Ujjwal did exactly that. He made
+      the property look premium, used the footage really well, and the overall
+      edit felt cinematic. What surprised me most was how quickly he understood
+      the vision I had in my mind."
+    </p>
+
+    <div class="who">
+      — Rohan Kapoor, Real Estate Content Creator &amp; Digital Marketer
+    </div>
+  </div>
+
+
+  <!-- Client 4 -->
+  <div class="testimonial-item">
+    <p>
+      "I wanted my Reels to look more professional and keep people watching
+      instead of just being basic cuts with music. Ujjwal completely changed
+      the feel of my footage. The transitions, timing, captions and sound
+      effects were really well done. The final edit felt energetic without
+      being over-edited."
+    </p>
+
+    <div class="who">
+      — Aanya Sharma, Instagram Creator &amp; Social Media Manager
+    </div>
+  </div>
+
+
+  <!-- Client 5 -->
+  <div class="testimonial-item">
+    <p>
+      "Editing a podcast is not just about cutting out mistakes, and Ujjwal
+      understood that. He cleaned up the pacing, removed unnecessary parts
+      and turned sections of the conversation into engaging clips. I especially
+      liked how natural the edit felt. Nothing was distracting from the actual
+      conversation, but the video still looked polished and professional."
+    </p>
+
+    <div class="who">
+      — Kabir Malhotra, Podcast Host &amp; Digital Content Creator
+    </div>
+  </div>
+
+
+  <!-- Client 6 -->
+  <div class="testimonial-item">
+    <p>
+      "We needed someone who could take our raw footage and turn it into content
+      that actually represented our brand. Ujjwal was quick to understand the
+      direction and delivered an edit that felt modern, clean and engaging.
+      The attention to pacing and visual details really stood out. His editing
+      made our footage feel much more valuable than it originally looked."
+    </p>
+
+    <div class="who">
+      — Neeraj Verma, Marketing Executive &amp; Brand Content Manager
+    </div>
+  </div>
+
+</div>
+“Hey I'm Prakash, I want to make my nomarl b roll clips to a fantastic and then I found Ujjwal sir profile in Freelancer app and I text him with in 30mints I got reply and He said me for free for my trust and I just watched the trial edit and honestly, I really liked your editing style. The pacing, cuts, and overall feel are exactly what I was looking for. I’d love to work with you on my upcoming videos. Let me know how we can get started!”
+"</p>
+    <div class="who">— Prakash, Contant creator & social media executive &amp; Manages - INSTAGRAM & YOUTUBE </div>
+  </div>
+</section>
+<section id="contact" class="contact">
+  <div class="sec-head" style="border-bottom:none; margin-bottom:0;"><span class="tc"></span><h2 style="border:none;">Let's cut something together</h2></div>
+  <h2 style="border:none; margin-bottom:10px;">Send your <em>footage</em>, get a free sample edit back.</h2>
+  <p style="color:var(--paper-dim); max-width:48ch;">No commitment, no invoice. I'd rather show you what I can do than tell you about it. First edit is always free.</p>
+  <div class="contact-links">
+    <a class="btn btn-primary" href="mailto:shuxmarketingagency@gmail.com">shuxmarketingagency@gmail.com</a>
+    <a class="btn btn-primary"
+   href="https://wa.me/919217846261?text=Hi%20Ujjwal%2C%20I%20found%20your%20portfolio%20and%20I%27m%20interested%20in%20your%20video%20editing%20services."
+   target="_blank">
+   +91 92178 46261
+</a>
+    <a class="btn btn-ghost" href="https://www.linkedin.com/feed/">LinkedIn</a>
+    <a class="btn btn-ghost" href="https://www.fiverr.com/ujjwalshukla821/buying?source=avatar_menu_profile"> fiverr profile
+  </div>
+</section>
+
+<footer>
+  <span>© 2026 — Ujjwal Shukla | Shux Marketing Agency</span>
+  <span>PREMIERE PRO · IST TIMEZONE · REPLIES WITHIN 24H</span>
+</footer>
+
+</body>
+</html>
+
